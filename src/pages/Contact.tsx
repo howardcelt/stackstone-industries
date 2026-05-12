@@ -1,194 +1,118 @@
-import { useState } from 'react';
-import { Layout } from '../components/layout/Layout';
+import React from 'react';
 import { motion } from 'motion/react';
-import { Mail, Phone, MapPin, Send, MessageSquare, Globe, ArrowRight, ShieldCheck } from 'lucide-react';
-import { cn } from '../lib/utils';
+import { Mail, Phone, MapPin, Globe, MessageSquare, Send, Clock, Building2 } from 'lucide-react';
+import { COMPANY_INFO } from '../constants';
 
 export default function Contact() {
-  const [activeTab, setActiveTab] = useState<'general' | 'wholesale' | 'export'>('general');
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    // Real logic would be here
-    setTimeout(() => setSubmitted(false), 5000);
-  };
-
   return (
-    <Layout>
-      <div className="bg-surface-light py-16 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">
-            {/* Info Column */}
-            <div className="lg:col-span-5 flex flex-col gap-12">
-               <div>
-                  <span className="text-primary font-bold uppercase tracking-[0.3em] text-xs mb-4 block underline underline-offset-4">Get in Touch</span>
-                  <h1 className="text-4xl md:text-6xl font-display font-bold text-ink leading-tight mb-6">Let's build a sustainable <span className="text-primary italic">Global</span> future.</h1>
-                  <p className="text-lg text-gray-500 font-light leading-relaxed">
-                    Whether you are looking for premium agricultural supplies, industrial processing contracts, or export partnerships, our team is ready to assist.
-                  </p>
-               </div>
-
-               <div className="space-y-8">
-                  <div className="flex gap-6 items-start group">
-                     <div className="w-14 h-14 bg-white rounded-2xl shadow-md flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all cursor-pointer">
-                        <Phone size={24} />
-                     </div>
-                     <div>
-                        <h4 className="text-xs font-bold uppercase text-gray-400 tracking-widest mb-1">Call Us Anywhere</h4>
-                        <p className="text-xl font-display font-bold text-ink">+234 800 STACKSTON</p>
-                        <p className="text-sm text-gray-400">Available Mon-Fri, 8am - 6pm WAT</p>
-                     </div>
-                  </div>
-                  <div className="flex gap-6 items-start group">
-                     <div className="w-14 h-14 bg-white rounded-2xl shadow-md flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all cursor-pointer">
-                        <Mail size={24} />
-                     </div>
-                     <div>
-                        <h4 className="text-xs font-bold uppercase text-gray-400 tracking-widest mb-1">Email Our Desk</h4>
-                        <p className="text-xl font-display font-bold text-ink">hello@stackston.com</p>
-                        <p className="text-sm text-gray-400">Responses within 24 business hours.</p>
-                     </div>
-                  </div>
-                  <div className="flex gap-6 items-start group">
-                     <div className="w-14 h-14 bg-white rounded-2xl shadow-md flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all cursor-pointer">
-                        <MapPin size={24} />
-                     </div>
-                     <div>
-                        <h4 className="text-xs font-bold uppercase text-gray-400 tracking-widest mb-1">Global HQ</h4>
-                        <p className="text-xl font-display font-bold text-ink italic leading-tight">Victoria Island Corporate Center, Lagos, Nigeria</p>
-                     </div>
-                  </div>
-               </div>
-
-               <div className="mt-8 p-8 bg-ink rounded-[40px] text-white relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-3xl -mr-10 -mt-10" />
-                  <h4 className="text-lg font-display font-bold mb-4 flex items-center gap-2">
-                     <Globe className="text-accent" size={20} /> Regional Presence
-                  </h4>
-                  <div className="grid grid-cols-2 gap-4">
-                     <div>
-                        <p className="text-[10px] uppercase font-bold text-accent tracking-widest mb-1">West Africa</p>
-                        <p className="text-xs font-semibold text-gray-300">Nigeria, Ghana, Ivory Coast</p>
-                     </div>
-                     <div>
-                        <p className="text-[10px] uppercase font-bold text-accent tracking-widest mb-1">Europe</p>
-                        <p className="text-xs font-semibold text-gray-300">United Kingdom, Netherlands</p>
-                     </div>
-                  </div>
-               </div>
-            </div>
-
-            {/* Form Column */}
-            <div className="lg:col-span-7">
-              <div className="bg-white p-8 md:p-12 rounded-[50px] shadow-2xl border border-gray-100 flex flex-col gap-10">
-                <div className="flex items-center gap-2 bg-surface-light p-1 rounded-full w-fit border border-gray-200">
-                  {(['general', 'wholesale', 'export'] as const).map(tab => (
-                    <button
-                      key={tab}
-                      onClick={() => setActiveTab(tab)}
-                      className={cn(
-                        "px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all",
-                        activeTab === tab ? "bg-primary text-white shadow-lg" : "text-gray-400 hover:text-ink"
-                      )}
-                    >
-                      {tab}
-                    </button>
-                  ))}
-                </div>
-
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  {submitted ? (
-                    <motion.div 
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="py-20 text-center space-y-4"
-                    >
-                      <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <ShieldCheck size={40} />
-                      </div>
-                      <h2 className="text-3xl font-display font-bold text-ink">Inquiry Sent Successfully</h2>
-                      <p className="text-gray-500 max-w-sm mx-auto">Your request has been logged in our secure system. A specialized agent from our {activeTab} desk will reach out within 24 hours.</p>
-                      <button 
-                        type="button" 
-                        onClick={() => setSubmitted(false)}
-                        className="text-primary font-bold hover:underline mt-4 block mx-auto"
-                      >
-                        Send another inquiry
-                      </button>
-                    </motion.div>
-                  ) : (
-                    <motion.div 
-                      layout
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="grid grid-cols-1 sm:grid-cols-2 gap-6"
-                    >
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 pl-4">Full Name</label>
-                        <input required className="w-full bg-surface-light border-none rounded-3xl px-6 py-5 outline-none focus:ring-2 ring-primary/20 transition-all font-medium" placeholder="Alexander Graham" />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 pl-4">Work Email</label>
-                        <input required type="email" className="w-full bg-surface-light border-none rounded-3xl px-6 py-5 outline-none focus:ring-2 ring-primary/20 transition-all font-medium" placeholder="alex@company.com" />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 pl-4">Phone Number</label>
-                        <input required type="tel" className="w-full bg-surface-light border-none rounded-3xl px-6 py-5 outline-none focus:ring-2 ring-primary/20 transition-all font-medium" placeholder="+234 ..." />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 pl-4">Company Name</label>
-                        <input required className="w-full bg-surface-light border-none rounded-3xl px-6 py-5 outline-none focus:ring-2 ring-primary/20 transition-all font-medium" placeholder="Industries Ltd" />
-                      </div>
-                      
-                      <div className="sm:col-span-2 space-y-2">
-                        <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 pl-4">Tell us about your requirements</label>
-                        <textarea required rows={4} className="w-full bg-surface-light border-none rounded-[32px] px-6 py-5 outline-none focus:ring-2 ring-primary/20 transition-all font-medium resize-none" placeholder="Details about quantity, logistics, or partnership..." />
-                      </div>
-
-                      <div className="sm:col-span-2 pt-4">
-                        <button type="submit" className="w-full bg-primary text-white py-6 rounded-3xl font-bold flex items-center justify-center gap-2 hover:bg-primary/90 transition-all shadow-2xl shadow-primary/20 hover:scale-[1.02] active:scale-95 group">
-                          Send {activeTab} Inquiry
-                          <Send size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                        </button>
-                      </div>
-                    </motion.div>
-                  )}
-                </form>
-
-                <div className="mt-8 flex items-center justify-center gap-12 pt-8 border-t border-gray-100">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Placeholder_logo.svg" alt="Certification" className="h-10 opacity-20 grayscale" />
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Placeholder_logo.svg" alt="Certification" className="h-10 opacity-20 grayscale" />
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Placeholder_logo.svg" alt="Certification" className="h-10 opacity-20 grayscale" />
-                </div>
-              </div>
-            </div>
-          </div>
+    <div className="pt-24 pb-20">
+      {/* Header */}
+      <section className="bg-primary pt-20 pb-24 text-white px-4 md:px-8 text-center relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-full h-full opacity-10 pointer-events-none">
+           <img src="https://images.unsplash.com/photo-1516383740770-fbcc5cbece03?auto=format&fit=crop&q=80&w=2000" className="w-full h-full object-cover" />
         </div>
-      </div>
+        <div className="relative z-10 max-w-4xl mx-auto space-y-6">
+           <span className="text-accent font-bold tracking-[0.2em] uppercase text-sm">Get In Touch</span>
+           <h1 className="text-5xl md:text-7xl font-bold tracking-tight">Connect with <br />Stackston.</h1>
+           <p className="text-xl text-white/70 font-light max-w-2xl mx-auto leading-relaxed">
+             From industrial wholesale inquiries to farm visit requests, our team is ready to assist you.
+           </p>
+        </div>
+      </section>
 
-       {/* Map Placeholder */}
-       <section className="h-[500px] w-full bg-gray-200 relative overflow-hidden">
-          <div className="absolute inset-0 grayscale flex items-center justify-center text-gray-400 font-display font-medium text-lg uppercase tracking-[0.5em]">
-             Interactive Global Map Placeholder
-          </div>
-          <div className="absolute bottom-10 left-10 bg-white p-6 rounded-3xl shadow-2xl z-10 border border-gray-100 max-w-sm">
-             <h4 className="flex items-center gap-2 font-display font-bold text-ink mb-4">
-                <MapPin size={20} className="text-accent" /> Our Locations
-             </h4>
-             <ul className="space-y-4 text-xs">
-                <li className="flex flex-col">
-                   <span className="font-bold uppercase tracking-wider text-primary">Regional Hub</span>
-                   <span className="text-gray-500">Ilaro Industrial Farm Zone, Ogun State</span>
-                </li>
-                <li className="flex flex-col">
-                   <span className="font-bold uppercase tracking-wider text-primary">Cold Storage</span>
-                   <span className="text-gray-500">Apapa Logistics Park, Lagos</span>
-                </li>
-             </ul>
-          </div>
-       </section>
-    </Layout>
+      {/* Main Grid */}
+      <section className="py-24 px-4 md:px-8">
+         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-16">
+            {/* Info Cards */}
+            <div className="lg:col-span-2 space-y-8">
+               <div className="space-y-4">
+                  <h2 className="text-3xl font-bold text-primary">Global Contact Hub</h2>
+                  <p className="text-ink/60">We target sub-4-hour response times during industrial business hours.</p>
+               </div>
+
+               <div className="space-y-6">
+                  {[
+                    { icon: MapPin, label: 'Headquarters', value: 'Industrial Way, Ikeja, Lagos', sub: 'Nigeria Division' },
+                    { icon: Phone, label: 'Business Line', value: COMPANY_INFO.phone, sub: 'Mon-Sat, 8am-6pm' },
+                    { icon: Mail, label: 'Email', value: COMPANY_INFO.email, sub: 'General & Support' },
+                    { icon: Clock, label: 'Response Target', value: '4 Hours', sub: 'For verified inquiries' },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-start space-x-6 p-8 bg-surface rounded-[2.5rem] border border-gray-100 hover:border-accent transition-all group">
+                       <div className="w-12 h-12 bg-white flex items-center justify-center rounded-2xl group-hover:bg-primary group-hover:text-white transition-colors">
+                          <item.icon className="w-6 h-6" />
+                       </div>
+                       <div className="space-y-1">
+                          <p className="text-[10px] font-black uppercase tracking-widest text-ink/40">{item.label}</p>
+                          <p className="font-bold text-primary text-lg">{item.value}</p>
+                          <p className="text-xs text-ink/60">{item.sub}</p>
+                       </div>
+                    </div>
+                  ))}
+               </div>
+            </div>
+
+            {/* Form */}
+            <div className="lg:col-span-3 bg-white p-8 md:p-16 rounded-[3.5rem] shadow-2xl border border-gray-100 relative overflow-hidden">
+               <div className="absolute top-0 right-0 w-24 h-24 bg-accent opacity-10 rounded-bl-full pointer-events-none" />
+               
+               <form className="space-y-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                     <div className="space-y-2">
+                        <label className="text-sm font-bold text-ink/60 ml-1">Your Name</label>
+                        <input className="w-full px-6 py-4 bg-surface border-none rounded-2xl outline-none focus:ring-2 focus:ring-primary font-medium" placeholder="Full name" />
+                     </div>
+                     <div className="space-y-2">
+                        <label className="text-sm font-bold text-ink/60 ml-1">Email Address</label>
+                        <input className="w-full px-6 py-4 bg-surface border-none rounded-2xl outline-none focus:ring-2 focus:ring-primary font-medium" placeholder="email@company.com" />
+                     </div>
+                  </div>
+
+                  <div className="space-y-2">
+                     <label className="text-sm font-bold text-ink/60 ml-1">Subject of Inquiry</label>
+                     <select className="w-full px-6 py-4 bg-surface border-none rounded-2xl outline-none focus:ring-2 focus:ring-primary font-medium appearance-none">
+                        <option>General Partnership</option>
+                        <option>Wholesale Order</option>
+                        <option>Export Quotation</option>
+                        <option>Manufacturing Request</option>
+                        <option>Investment Inquiry</option>
+                        <option>Career Opportunities</option>
+                     </select>
+                  </div>
+
+                  <div className="space-y-2">
+                     <label className="text-sm font-bold text-ink/60 ml-1">Detailed Message</label>
+                     <textarea className="w-full px-6 py-8 bg-surface border-none rounded-2xl outline-none focus:ring-2 focus:ring-primary font-medium resize-none" rows={6} placeholder="Tell us about your requirements or questions..." />
+                  </div>
+
+                  <button className="w-full py-5 bg-primary text-white rounded-2xl font-bold flex items-center justify-center space-x-3 text-lg hover:bg-secondary transition-all shadow-xl group">
+                     <span>Transmit Message</span>
+                     <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                  </button>
+               </form>
+            </div>
+         </div>
+      </section>
+
+      {/* Map Placeholder/CTA */}
+      <section className="py-24 px-4 md:px-8 bg-surface">
+         <div className="max-w-7xl mx-auto bg-stone-900 rounded-[3.5rem] p-8 md:p-20 text-white flex flex-col md:flex-row items-center justify-between gap-12 overflow-hidden relative">
+            <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/grid.png')]" />
+            <div className="max-w-xl space-y-6 relative z-10">
+               <h2 className="text-3xl md:text-5xl font-bold">Visit Our <br />Industrial Hub.</h2>
+               <p className="text-white/60 text-lg">Schedule a factory tour or farm visit to see our industrial processes and quality control systems in person.</p>
+               <button className="inline-flex items-center space-x-2 bg-accent text-primary px-10 py-5 rounded-2xl font-bold hover:bg-white transition-all shadow-2xl">
+                  <Building2 className="w-5 h-5" />
+                  <span>Request Facility Tour</span>
+               </button>
+            </div>
+            <div className="w-full md:w-80 h-80 bg-white/5 rounded-[3rem] border border-white/10 flex items-center justify-center relative z-10 backdrop-blur-md">
+               <div className="text-center space-y-4">
+                  <Globe className="w-12 h-12 text-accent mx-auto animate-pulse" />
+                  <p className="text-xs font-bold uppercase tracking-widest text-white/40">Global Logistics <br />Ready for Dispatch</p>
+               </div>
+            </div>
+         </div>
+      </section>
+    </div>
   );
 }

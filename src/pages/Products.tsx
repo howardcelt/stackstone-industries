@@ -1,165 +1,187 @@
-import { useState } from 'react';
-import { Layout } from '../components/layout/Layout';
-import { useCart } from '../context/CartContext';
-import { Product } from '../types';
-import { motion } from 'motion/react';
-import { Search, Filter, ShoppingCart, Info, ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { ShoppingBag, Search, Filter, ChevronDown, Star, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { cn } from '../lib/utils';
+import { useCart } from '../store/useCart';
 
-const MOCK_PRODUCTS: Product[] = [
-  { id: '1', name: 'Fresh Habeñero Pepper', price: 15000, category: 'Pepper', unit: 'Crate (20kg)', moq: 1, description: 'Bright, spicy and fresh from our farms.', imageUrl: 'https://images.unsplash.com/photo-1588253518678-596bfd6b47e5?auto=format&fit=crop&q=80&w=1000' },
-  { id: '2', name: 'Premium Yellow Garri', price: 42000, category: 'Cassava', unit: 'Bag (50kg)', moq: 1, description: 'Fine texture, well-processed with palm oil.', imageUrl: 'https://images.unsplash.com/photo-1621236304198-651565bb9dbb?auto=format&fit=crop&q=80&w=1000' },
-  { id: '3', name: 'Commercial Goat (Large)', price: 75000, category: 'Livestock', unit: 'Unit', moq: 1, description: 'Healthy, grass-fed livestock.', imageUrl: 'https://images.unsplash.com/photo-1524024973431-2ad916746881?auto=format&fit=crop&q=80&w=1000' },
-  { id: '4', name: 'Dried Chili Powder', price: 5500, category: 'Processed', unit: 'Kg', moq: 5, description: 'Pure ground chili with no additives.', imageUrl: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&q=80&w=1000' },
-  { id: '5', name: 'White Garri (Export Grade)', price: 48000, category: 'Cassava', unit: 'Bag (50kg)', moq: 10, description: 'Double-sifted, dry and crunchy.', imageUrl: 'https://images.unsplash.com/photo-1621236304198-651565bb9dbb?auto=format&fit=crop&q=80&w=1000' },
-  { id: '6', name: 'Smoked Goat Meat', price: 9500, category: 'Processed', unit: 'Kg', moq: 2, description: 'Traditional smoked flavor, vacuum sealed.', imageUrl: 'https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&q=80&w=1000' },
+const PRODUCTS = [
+  { id: 1, name: 'Premium Red Cayenne Powder (Export-Grade)', price: 12.99, category: 'Pepper', rating: 4.8, img: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d', badge: 'Best Seller' },
+  { id: 2, name: 'Whole Dried Habanero Peppers (1kg Bulk)', price: 24.50, category: 'Pepper', rating: 4.9, img: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5', badge: 'Export Quality' },
+  { id: 3, name: 'Traditional Ijevu Garri (5kg Pack)', price: 15.00, category: 'Cassava', rating: 4.7, img: 'https://images.unsplash.com/photo-1626082896492-766af4eb6501', badge: 'Native Grade' },
+  { id: 4, name: 'Premium Goat Meat (Frozen Mixed Parts)', price: 45.00, category: 'Goat', rating: 4.9, img: 'https://images.unsplash.com/photo-1603048588665-791ca8aea617', badge: 'Cold Chain' },
+  { id: 5, name: 'Industrial Cassava Starch (25kg Bag)', price: 120.00, category: 'Cassava', rating: 5.0, img: 'https://images.unsplash.com/photo-1582234372722-50d02b123616', badge: 'Industrial' },
+  { id: 6, name: 'Dried Pepper Flasks (Gift Box set)', price: 18.00, category: 'Pepper', rating: 4.6, img: 'https://images.unsplash.com/photo-1591871937573-74dbba515c4c', badge: 'Premium' },
+  { id: 7, name: 'Live Commercial Goats (Bucks)', price: 180.00, category: 'Goat', rating: 4.8, img: 'https://images.unsplash.com/photo-1524024973431-2ad916746881', badge: 'Farming' },
+  { id: 8, name: 'Fine Cassava Flour (HQCF)', price: 2.50, category: 'Cassava', rating: 4.7, img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff', badge: 'Baking' },
 ];
 
-const categories = ['All', 'Pepper', 'Cassava', 'Livestock', 'Processed'];
+const CATEGORIES = ['All', 'Pepper', 'Goat', 'Cassava', 'Industrial', 'Packaged Foods'];
 
 export default function Products() {
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-  const { addToCart } = useCart();
+  const addItem = useCart((state) => state.addItem);
 
-  const filteredProducts = MOCK_PRODUCTS.filter(p => {
-    const matchesCat = selectedCategory === 'All' || p.category === selectedCategory;
+  const filteredProducts = PRODUCTS.filter(p => {
+    const matchesCategory = activeCategory === 'All' || p.category === activeCategory;
     const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCat && matchesSearch;
+    return matchesCategory && matchesSearch;
   });
 
   return (
-    <Layout>
-      <div className="bg-surface-light py-16 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
-            <div>
-              <h1 className="text-4xl font-display font-bold text-ink mb-2">Our Catalog</h1>
-              <p className="text-gray-500">Premium agricultural products for retail and wholesale.</p>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
-              <div className="relative flex-grow sm:w-64">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                <input 
-                  type="text" 
-                  placeholder="Search products..." 
-                  className="w-full pl-10 pr-4 py-3 rounded-full border border-gray-200 outline-none focus:border-primary transition-all"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-              <div className="flex bg-white rounded-full p-1 border border-gray-200 overflow-x-auto no-scrollbar">
-                {categories.map(cat => (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={cn(
-                      "px-6 py-2 rounded-full text-sm font-semibold transition-all whitespace-nowrap",
-                      selectedCategory === cat ? "bg-primary text-white shadow-md" : "text-gray-500 hover:text-ink"
-                    )}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-            </div>
+    <div className="pt-24 pb-20">
+      {/* Header */}
+      <div className="bg-primary pt-20 pb-24 text-white px-4 md:px-8 text-center relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+           <img src="https://images.unsplash.com/photo-1586771107445-d3ca88fb3f00" className="w-full h-full object-cover" />
+        </div>
+        <div className="relative z-10 max-w-4xl mx-auto space-y-6">
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight">Our Product Store</h1>
+          <p className="text-xl text-white/70 font-light">From premium table-ready condiments to industrial-grade raw materials.</p>
+        </div>
+      </div>
+
+      {/* Filter Bar */}
+      <div className="sticky top-20 z-40 bg-white border-b border-gray-100 py-4 px-4 md:px-8">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex overflow-x-auto pb-2 md:pb-0 scrollbar-hide space-x-2 w-full md:w-auto">
+            {CATEGORIES.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={cn(
+                  "px-6 py-2 rounded-full text-sm font-bold transition-all whitespace-nowrap",
+                  activeCategory === cat ? "bg-primary text-white" : "bg-surface text-primary hover:bg-gray-200"
+                )}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {filteredProducts.map(product => (
-              <motion.div 
+          <div className="relative w-full md:w-72">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 bg-surface border-none rounded-xl text-sm focus:ring-2 focus:ring-primary outline-none"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Grid */}
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
+        <div className="flex justify-between items-center mb-8">
+          <p className="text-ink/60 font-medium">{filteredProducts.length} Products Found</p>
+          <div className="flex items-center space-x-2 text-sm font-bold text-primary cursor-pointer">
+            <Filter className="w-4 h-4" />
+            <span>Sort by: Relevance</span>
+            <ChevronDown className="w-4 h-4" />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <AnimatePresence mode='popLayout'>
+            {filteredProducts.map((p) => (
+              <motion.div
                 layout
-                key={product.id}
+                key={p.id}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="bg-white rounded-[28px] overflow-hidden shadow-sm hover:shadow-xl transition-all border border-gray-100 flex flex-col"
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.3 }}
+                className="group flex flex-col bg-white rounded-3xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-all"
               >
-                <Link to={`/products/${product.id}`} className="block h-60 relative overflow-hidden group">
-                  <img 
-                    src={product.imageUrl} 
-                    alt={product.name} 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
-                    <span className="bg-white text-ink px-4 py-2 rounded-full text-xs font-bold flex items-center gap-1">
-                      <Info size={14} /> Quick View
-                    </span>
+                {/* Image */}
+                <div className="relative aspect-square overflow-hidden bg-surface">
+                  <img src={p.img} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" referrerPolicy="no-referrer" />
+                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter text-primary shadow-sm border border-gray-100">
+                    {p.badge}
                   </div>
-                </Link>
+                  <button 
+                    onClick={() => addItem({ id: p.id, name: p.name, price: p.price, img: p.img })}
+                    className="absolute bottom-4 right-4 bg-primary text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 shadow-xl"
+                  >
+                    <ShoppingBag className="w-5 h-5" />
+                  </button>
+                </div>
 
-                <div className="p-6 flex flex-col flex-1">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-accent">{product.category}</span>
-                    <span className="text-[10px] bg-surface-light text-primary px-2 py-0.5 rounded font-bold uppercase">{product.unit}</span>
+                {/* Content */}
+                <div className="p-6 space-y-4">
+                  <div className="space-y-1">
+                    <div className="flex items-center space-x-1 text-accent text-xs">
+                      <Star className="w-3 h-3 fill-current" />
+                      <span className="font-bold">{p.rating}</span>
+                    </div>
+                    <h3 className="font-bold text-lg leading-tight text-primary line-clamp-2 h-14">{p.name}</h3>
+                    <div className="flex justify-between items-center pt-2">
+                       <span className="text-xl font-black text-ink">${p.price}</span>
+                       <span className="text-xs text-ink/40 font-bold uppercase">Incl. Tax</span>
+                    </div>
                   </div>
-                  <h3 className="font-display font-bold text-lg text-ink mb-1">{product.name}</h3>
-                  <p className="text-gray-400 text-xs line-clamp-2 mb-4">{product.description}</p>
-                  
-                  <div className="mt-auto">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex flex-col leading-none">
-                        <span className="text-xs text-gray-400 font-medium">Price</span>
-                        <span className="text-xl font-bold text-secondary">₦{product.price.toLocaleString()}</span>
-                      </div>
-                      <div className="text-right">
-                        <span className="text-[10px] text-gray-400 block">Min Order</span>
-                        <span className="text-xs font-bold text-ink">{product.moq} {product.unit.split(' ')[0]}</span>
-                      </div>
-                    </div>
 
-                    <div className="grid grid-cols-5 gap-2">
-                      <button 
-                        onClick={() => addToCart(product)}
-                        className="col-span-4 bg-primary text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-primary/90 transition-all shadow-lg active:scale-95"
-                      >
-                        <ShoppingCart size={18} />
-                        Add to Cart
-                      </button>
-                      <Link 
-                        to={`/products/${product.id}`}
-                        className="col-span-1 bg-surface-light text-primary rounded-xl flex items-center justify-center hover:bg-primary/10 transition-colors"
-                      >
-                         <ArrowRight size={20} />
-                      </Link>
-                    </div>
+                  <div className="pt-2 flex gap-2">
+                    <button className="flex-grow py-3 bg-primary text-white text-sm font-bold rounded-xl hover:bg-secondary transition-colors">
+                      Quick Shop
+                    </button>
+                    <Link to={`/products/${p.id}`} className="p-3 bg-surface text-primary rounded-xl hover:bg-accent transition-colors">
+                      <ArrowRight className="w-5 h-5" />
+                    </Link>
                   </div>
                 </div>
               </motion.div>
             ))}
-          </div>
-
-          {filteredProducts.length === 0 && (
-            <div className="text-center py-24 bg-white rounded-3xl border border-dashed border-gray-200">
-              <div className="w-16 h-16 bg-surface-light rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400">
-                <Search size={32} />
-              </div>
-              <h3 className="text-xl font-display font-bold text-ink">No products found</h3>
-              <p className="text-gray-500 max-w-xs mx-auto mt-2">Try adjusting your filters or search query to find what you're looking for.</p>
-              <button 
-                onClick={() => {setSelectedCategory('All'); setSearchQuery('');}}
-                className="mt-6 text-primary font-bold hover:underline"
-              >
-                Clear all filters
-              </button>
-            </div>
-          )}
+          </AnimatePresence>
         </div>
-      </div>
-      
-      {/* Newsletter */}
-      <section className="bg-primary py-20 px-6">
-          <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="text-center md:text-left">
-              <h2 className="text-3xl font-display font-bold text-white mb-2">Wholesale & Export Quotes</h2>
-              <p className="text-white/70">Need a bulk order or export pricing? Request a custom quote today.</p>
+
+        {/* Empty State */}
+        {filteredProducts.length === 0 && (
+          <div className="text-center py-32 space-y-4">
+            <div className="w-20 h-20 bg-surface rounded-full flex items-center justify-center mx-auto">
+              <Search className="w-8 h-8 text-ink/20" />
             </div>
-            <Link to="/contact" className="bg-accent text-white px-10 py-4 rounded-full font-bold shadow-2xl hover:scale-105 transition-all whitespace-nowrap">
-              Bulk Inquiry
+            <h2 className="text-2xl font-bold text-primary">No products found</h2>
+            <p className="text-ink/60">Try adjusting your filters or search query.</p>
+            <button 
+              onClick={() => {setActiveCategory('All'); setSearchQuery('');}}
+              className="text-primary font-bold underline"
+            >
+              Clear All Filters
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Wholesale Banner */}
+      <section className="container mx-auto px-4 md:px-8 mt-12 mb-20">
+        <div className="bg-secondary rounded-[2.5rem] p-8 md:p-16 flex flex-col md:flex-row items-center justify-between gap-12 text-white overflow-hidden relative">
+          <div className="absolute top-0 right-0 w-1/3 h-full opacity-10 pointer-events-none">
+             <img src="https://images.unsplash.com/photo-1533900298318-6b8da08a523e" className="w-full h-full object-cover" />
+          </div>
+          <div className="max-w-xl space-y-6 relative z-10">
+            <h2 className="text-3xl md:text-5xl font-bold">Bulk & Wholesale <br />Supply Program</h2>
+            <p className="text-white/80 text-lg">Are you a restaurant owner, distributor, or food manufacturer? Access our exclusive wholesale pricing and tiered ordering system.</p>
+            <Link to="/wholesale" className="inline-flex items-center space-x-2 bg-accent text-primary px-10 py-5 rounded-2xl font-bold hover:bg-white transition-all shadow-2xl">
+              <span>Apply for Wholesale</span>
+              <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
+          <div className="grid grid-cols-2 gap-4 text-center relative z-10">
+             <div className="bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/20">
+                <span className="block text-3xl font-black text-accent">500+</span>
+                <span className="text-xs font-bold uppercase tracking-widest opacity-60">Verified Distributors</span>
+             </div>
+             <div className="bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/20">
+                <span className="block text-3xl font-black text-accent">24h</span>
+                <span className="text-xs font-bold uppercase tracking-widest opacity-60">Fulfillment Target</span>
+             </div>
+          </div>
+        </div>
       </section>
-    </Layout>
+    </div>
   );
 }

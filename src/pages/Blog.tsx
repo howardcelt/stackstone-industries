@@ -1,119 +1,153 @@
-import { Layout } from '../components/layout/Layout';
-import { motion } from 'motion/react';
-import { Search, ArrowRight, Calendar, User, Tag } from 'lucide-react';
+import React from 'react';
+import { Calendar, User, ArrowRight, Share2, Bookmark, Clock, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { BlogPost } from '../types';
+import { motion } from 'motion/react';
 
-const MOCK_BLOGS: BlogPost[] = [
-  { id: '1', title: 'The Future of Cassava Processing in 2026', excerpt: 'How vertical integration and automated peeling lines are revolutionizing industrial starch production in West Africa.', author: 'Dr. Samuel Stackston', image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=1000', category: 'Industrial', createdAt: '2026-05-10' },
-  { id: '2', title: 'Achieving Zero Waste in Commercial Pepper Farming', excerpt: 'Our journey to utilizing every part of the pepper plant, from seeds for next season to compost for our soil.', author: 'Adeshola Balogun', image: 'https://images.unsplash.com/photo-1606041008023-472dfb5e530f?auto=format&fit=crop&q=80&w=1000', category: 'Sustainability', createdAt: '2026-05-08' },
-  { id: '3', title: 'Global Export Compliance for Small Farms', excerpt: 'What small-scale distributors need to know when entering the European and US market with agricultural produce.', author: 'Kingsley Eke', image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1000', category: 'Export', createdAt: '2026-05-05' },
-  { id: '4', title: 'Precision Feed Systems for Goat Ranching', excerpt: 'Evaluating the impact of automated nutrient tracking on livestock yield and animal welfare.', author: 'Dr. Samuel Stackston', image: 'https://images.unsplash.com/photo-1524024973431-2ad916746881?auto=format&fit=crop&q=80&w=1000', category: 'Livestock', createdAt: '2026-05-02' },
+const POSTS = [
+  {
+    id: 1,
+    title: 'Precision Agriculture: The Future of Pepper Farming in West Africa',
+    excerpt: 'How data-driven soil analysis and solar irrigation are doubling yields at Stackston farm centers.',
+    category: 'Innovations',
+    author: 'Dr. Sarah Ade',
+    date: 'May 10, 2026',
+    readTime: '6 min read',
+    img: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d'
+  },
+  {
+    id: 2,
+    title: 'The Industrial Cassava Boom: From Local Staples to Global Commodities',
+    excerpt: 'Exploring the rising demand for HQCF and industrial starch in the international beverage industry.',
+    category: 'Market Trends',
+    author: 'James Stackston',
+    date: 'May 05, 2026',
+    readTime: '8 min read',
+    img: 'https://images.unsplash.com/photo-1582234372722-50d02b123616'
+  },
+  {
+    id: 3,
+    title: 'Livestock 2.0: Modern Husbandry Techniques for Premium Goat Meat',
+    excerpt: 'A deep dive into our cold-chain logistics and veterinary standards for export-grade meat production.',
+    category: 'Livestock',
+    author: 'Musa Bello',
+    date: 'Apr 28, 2026',
+    readTime: '5 min read',
+    img: 'https://images.unsplash.com/photo-1524024973431-2ad916746881'
+  },
+  {
+    id: 4,
+    title: 'Export Compliance: Navigating ISO & NAFDAC Standards in 2026',
+    excerpt: 'A checklist for agribusinesses aiming for the European and North American markets.',
+    category: 'Compliance',
+    author: 'Lawal Grace',
+    date: 'Apr 20, 2026',
+    readTime: '12 min read',
+    img: 'https://images.unsplash.com/photo-1586771107445-d3ca88fb3f00'
+  }
 ];
 
 export default function Blog() {
   return (
-    <Layout>
-      <div className="bg-surface-light py-16 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
-            <div className="max-w-2xl">
-               <span className="text-primary font-bold uppercase tracking-[0.4em] text-xs mb-4 block underline underline-offset-8">Journal & Insights</span>
-               <h1 className="text-4xl md:text-6xl font-display font-bold text-ink leading-tight">Stackston <span className="text-primary italic">Intelligence</span></h1>
-               <p className="text-lg text-gray-500 mt-6 italic">Deep dives into the mechanics of modern agriculture, supply chains, and industrial food processing.</p>
-            </div>
-            
-            <div className="relative w-full md:w-80">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-              <input 
-                type="text" 
-                placeholder="Search articles..." 
-                className="w-full pl-12 pr-6 py-4 rounded-full border border-gray-200 outline-none focus:ring-2 ring-primary/20 transition-all font-medium"
-              />
-            </div>
+    <div className="pt-24 pb-20">
+      {/* Featured Header */}
+      <section className="bg-surface pt-20 pb-24 px-4 md:px-8">
+        <div className="max-w-7xl mx-auto space-y-12">
+          <div className="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-gray-200 pb-12">
+             <div className="space-y-4 max-w-xl">
+                <span className="text-secondary font-bold tracking-[0.2em] uppercase text-sm">Industrial Insights</span>
+                <h1 className="text-5xl md:text-7xl font-bold text-primary tracking-tighter">Agro Pulse.</h1>
+                <p className="text-xl text-ink/60 font-light">Industry news, technical breakthroughs, and market analysis from the Stackston leadership team.</p>
+             </div>
+             <div className="relative w-full md:w-80">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input className="w-full pl-10 pr-4 py-4 bg-white border-none rounded-2xl outline-none focus:ring-2 focus:ring-primary shadow-sm" placeholder="Search articles..." />
+             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-12">
-            {/* Featured Post */}
-            <div className="md:col-span-2">
-               <div className="group relative bg-white rounded-[50px] overflow-hidden shadow-2xl flex flex-col md:flex-row border border-gray-100 h-auto md:h-[500px]">
-                  <div className="md:w-1/2 h-80 md:h-full overflow-hidden">
-                    <img src={MOCK_BLOGS[0].image} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  </div>
-                  <div className="md:w-1/2 p-8 md:p-16 flex flex-col justify-center gap-6">
-                     <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-accent">
-                        <span>{MOCK_BLOGS[0].category}</span>
-                        <div className="w-1 h-1 bg-gray-200 rounded-full" />
-                        <span>{MOCK_BLOGS[0].createdAt}</span>
-                     </div>
-                     <h2 className="text-3xl md:text-5xl font-display font-bold text-ink leading-tight group-hover:text-primary transition-colors cursor-pointer">{MOCK_BLOGS[0].title}</h2>
-                     <p className="text-gray-500 line-clamp-3 leading-relaxed">{MOCK_BLOGS[0].excerpt}</p>
-                     <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-3">
-                           <div className="w-10 h-10 bg-surface-light rounded-full flex items-center justify-center text-primary">
-                             <User size={18} />
-                           </div>
-                           <span className="text-xs font-bold text-ink">{MOCK_BLOGS[0].author}</span>
-                        </div>
-                        <Link to="#" className="ml-auto bg-primary text-white p-4 rounded-full shadow-lg group-hover:scale-110 transition-transform">
-                          <ArrowRight size={24} />
-                        </Link>
-                     </div>
-                  </div>
-               </div>
-            </div>
-
-            {/* Other Posts */}
-            {MOCK_BLOGS.slice(1).map((post, idx) => (
-               <motion.div 
-                 key={post.id} 
-                 whileHover={{ y: -10 }}
-                 className="bg-white rounded-[40px] overflow-hidden border border-gray-100 shadow-lg group flex flex-col h-full"
-               >
-                  <div className="h-72 overflow-hidden relative">
-                    <img src={post.image} alt="" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                    <div className="absolute top-6 left-6 flex gap-2">
-                       <span className="bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-[10px] font-bold uppercase text-primary shadow-sm">{post.category}</span>
-                    </div>
-                  </div>
-                  <div className="p-10 flex flex-col flex-1">
-                     <div className="flex items-center gap-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">
-                        <Calendar size={14} className="text-accent" /> {post.createdAt}
-                     </div>
-                     <h3 className="text-2xl font-display font-bold text-ink leading-snug mb-4 group-hover:text-primary transition-colors cursor-pointer">{post.title}</h3>
-                     <p className="text-gray-500 mb-8 flex-1 leading-relaxed italic line-clamp-3">{post.excerpt}</p>
-                     <div className="flex items-center justify-between pt-6 border-t border-gray-50">
-                        <span className="text-xs font-bold text-gray-400">By {post.author}</span>
-                        <Link to="#" className="text-primary font-bold text-sm flex items-center gap-2 group-hover:translate-x-1 transition-transform">
-                           Read More <ArrowRight size={18} />
-                        </Link>
-                     </div>
-                  </div>
-               </motion.div>
-            ))}
-          </div>
-
-          <div className="mt-20 flex justify-center">
-             <button className="bg-white border border-gray-200 text-ink px-10 py-4 rounded-full font-bold hover:bg-gray-50 transition-all shadow-sm">
-                Load Older Articles
-             </button>
+          {/* Featured Post Card */}
+          <div className="group relative rounded-[3rem] overflow-hidden bg-primary text-white h-[600px] flex items-end">
+             <div className="absolute inset-0 z-0">
+                <img src={POSTS[0].img} alt="Hero" className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-1000" />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/40 to-transparent" />
+             </div>
+             <div className="relative z-10 p-8 md:p-16 max-w-3xl space-y-6">
+                <span className="inline-block px-4 py-1 rounded-full bg-accent text-primary text-xs font-black uppercase">{POSTS[0].category}</span>
+                <h2 className="text-4xl md:text-5xl font-bold leading-tight">{POSTS[0].title}</h2>
+                <div className="flex items-center space-x-6 text-sm opacity-80 border-t border-white/20 pt-6">
+                   <div className="flex items-center space-x-2">
+                      <User className="w-4 h-4" />
+                      <span>{POSTS[0].author}</span>
+                   </div>
+                   <div className="flex items-center space-x-2">
+                      <Calendar className="w-4 h-4" />
+                      <span>{POSTS[0].date}</span>
+                   </div>
+                   <div className="flex items-center space-x-2">
+                      <Clock className="w-4 h-4" />
+                      <span>{POSTS[0].readTime}</span>
+                   </div>
+                </div>
+                <Link to={`/blog/${POSTS[0].id}`} className="inline-flex items-center space-x-2 bg-white text-primary px-8 py-4 rounded-xl font-bold hover:bg-accent transition-colors">
+                   <span>Read Article</span>
+                   <ArrowRight className="w-5 h-5" />
+                </Link>
+             </div>
           </div>
         </div>
-      </div>
-      
-      {/* Search by tag */}
-      <section className="py-20 px-6 border-t border-gray-100">
-         <div className="max-w-7xl mx-auto flex flex-col items-center gap-8">
-            <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-gray-400">Browse by Department</h3>
-            <div className="flex flex-wrap justify-center gap-4">
-               {['Agriculture', 'Manufacturing', 'Supply Chain', 'Exports', 'Technology', 'Sustainability', 'Distributors'].map((tag, i) => (
-                 <button key={i} className="bg-surface-light border border-gray-100 px-6 py-2 rounded-full text-sm font-semibold text-gray-600 hover:bg-primary hover:text-white transition-all">
-                    {tag}
-                 </button>
-               ))}
-            </div>
-         </div>
       </section>
-    </Layout>
+
+      {/* Grid */}
+      <section className="py-24 px-4 md:px-8">
+        <div className="max-w-7xl mx-auto space-y-16">
+           <div className="flex justify-between items-center">
+              <h2 className="text-3xl font-bold text-primary">Recent Articles</h2>
+              <div className="flex space-x-4">
+                 {['All', 'Innovations', 'Market Trends', 'Livestock'].map(cat => (
+                   <button key={cat} className="text-sm font-bold text-ink/40 hover:text-primary transition-colors">{cat}</button>
+                 ))}
+              </div>
+           </div>
+
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+              {POSTS.slice(1).map((post, i) => (
+                <article key={i} className="group space-y-6">
+                   <div className="relative aspect-[16/10] rounded-3xl overflow-hidden shadow-lg">
+                      <img src={post.img} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                      <div className="absolute top-4 right-4 flex space-x-2">
+                         <button className="p-2 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-accent transition-colors"><Bookmark className="w-4 h-4" /></button>
+                         <button className="p-2 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-accent transition-colors"><Share2 className="w-4 h-4" /></button>
+                      </div>
+                   </div>
+                   <div className="space-y-4">
+                      <div className="flex items-center space-x-3 text-xs font-bold text-secondary uppercase tracking-widest">
+                         <span>{post.category}</span>
+                         <span className="w-1 h-1 bg-gray-300 rounded-full" />
+                         <span>{post.readTime}</span>
+                      </div>
+                      <h3 className="text-2xl font-bold text-primary group-hover:text-secondary transition-colors line-clamp-2 h-16">{post.title}</h3>
+                      <p className="text-ink/60 line-clamp-2">{post.excerpt}</p>
+                      <Link to={`/blog/${post.id}`} className="inline-flex items-center space-x-2 text-primary font-bold border-b-2 border-primary pb-1 group-hover:border-secondary transition-colors">
+                         <span>Read More</span>
+                         <ArrowRight className="w-4 h-4" />
+                      </Link>
+                   </div>
+                </article>
+              ))}
+           </div>
+
+           {/* Newsletter Mini */}
+           <div className="bg-secondary rounded-[3rem] p-8 md:p-16 text-white flex flex-col md:flex-row items-center justify-between gap-8">
+              <div className="max-w-lg space-y-4">
+                 <h2 className="text-3xl md:text-4xl font-bold">Industry Intelligence <br />Delivered Weekly.</h2>
+                 <p className="text-white/70">Join 5,000+ agribusiness leaders who receive our monthly market reports and farm insights.</p>
+              </div>
+              <div className="w-full md:w-auto flex flex-col sm:flex-row gap-4">
+                 <input className="px-6 py-4 bg-white/10 border border-white/20 rounded-2xl outline-none focus:ring-2 focus:ring-accent min-w-[300px] text-white placeholder:text-white/40" placeholder="Enter your email" />
+                 <button className="px-10 py-4 bg-accent text-primary rounded-2xl font-bold hover:bg-white transition-colors">Subscribe</button>
+              </div>
+           </div>
+        </div>
+      </section>
+    </div>
   );
 }
