@@ -19,17 +19,17 @@ export const COMPANY_INFO = {
 export const FOOTER_LINKS = {
   quickLinks: [
     { name: 'About Us', href: '/about' },
+    { name: 'Investor Relations', href: '/investors' },
+    { name: 'Distributor Program', href: '/distributor' },
     { name: 'Products', href: '/products' },
     { name: 'Blog', href: '/blog' },
     { name: 'Contact', href: '/contact' },
-    { name: 'Careers', href: '/careers' },
-    { name: 'Certifications', href: '/certifications' },
   ],
   productCategories: [
-    { name: 'Fresh Pepper', href: '/products/fresh-pepper' },
-    { name: 'Goat Meat', href: '/products/goat-meat' },
-    { name: 'Processed Cassava', href: '/products/cassava' },
-    { name: 'Packaged Foods', href: '/products/packaged-foods' },
+    { name: 'Fresh Pepper', href: '/products' },
+    { name: 'Goat Meat', href: '/products' },
+    { name: 'Processed Cassava', href: '/products' },
+    { name: 'Packaged Foods', href: '/products' },
     { name: 'Wholesale Supplies', href: '/wholesale' },
   ],
   farmDivisions: [
@@ -38,9 +38,8 @@ export const FOOTER_LINKS = {
     { name: 'Cassava Farm', href: '/farms/cassava' },
   ],
   exportServices: [
-    { name: 'Global Logistics', href: '/export/logistics' },
-    { name: 'Quality Assurance', href: '/export/quality' },
-    { name: 'International Compliance', href: '/export/compliance' },
-    { name: 'Bulk Export Inquiries', href: '/export/inquiry' },
+    { name: 'Global Logistics', href: '/export' },
+    { name: 'Processing & Manufacturing', href: '/manufacturing' },
+    { name: 'Industrial Packaging', href: '/packaging' },
   ],
 };

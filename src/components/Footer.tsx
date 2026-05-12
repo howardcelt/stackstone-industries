@@ -1,6 +1,7 @@
 import React from 'react';
 import { Mail, Phone, MapPin, Send, Download, Facebook, Twitter, Instagram, Linkedin, MessageCircle } from 'lucide-react';
 import { motion } from 'motion/react';
+import { Link } from 'react-router-dom';
 import { COMPANY_INFO, FOOTER_LINKS } from '../constants';
 import { cn } from '../lib/utils';
 
@@ -55,9 +56,9 @@ export default function Footer() {
             <ul className="space-y-3">
               {FOOTER_LINKS.quickLinks.map((link) => (
                 <li key={link.name}>
-                  <a href={link.href} className="text-white/70 hover:text-[#F9A825] transition-colors">
+                  <Link to={link.href} className="text-white/70 hover:text-[#F9A825] transition-colors">
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -70,9 +71,9 @@ export default function Footer() {
               <ul className="space-y-3">
                 {FOOTER_LINKS.productCategories.map((link) => (
                   <li key={link.name}>
-                    <a href={link.href} className="text-white/70 hover:text-[#F9A825] transition-colors">
+                    <Link to={link.href} className="text-white/70 hover:text-[#F9A825] transition-colors">
                       {link.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -82,9 +83,9 @@ export default function Footer() {
               <ul className="space-y-3">
                 {FOOTER_LINKS.farmDivisions.map((link) => (
                   <li key={link.name}>
-                    <a href={link.href} className="text-white/70 hover:text-[#F9A825] transition-colors">
+                    <Link to={link.href} className="text-white/70 hover:text-[#F9A825] transition-colors">
                       {link.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -98,9 +99,9 @@ export default function Footer() {
               <ul className="space-y-3 text-sm">
                 {FOOTER_LINKS.exportServices.map((link) => (
                   <li key={link.name}>
-                    <a href={link.href} className="text-white/70 hover:text-[#F9A825] transition-colors">
+                    <Link to={link.href} className="text-white/70 hover:text-[#F9A825] transition-colors">
                       {link.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -146,8 +147,8 @@ export default function Footer() {
             <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 text-sm text-white/50">
               <p>© {new Date().getFullYear()} {COMPANY_INFO.name}. All rights reserved.</p>
               <div className="flex space-x-4">
-                <a href="/privacy" className="hover:text-white">Privacy Policy</a>
-                <a href="/terms" className="hover:text-white">Terms & Conditions</a>
+                <Link to="/privacy" className="hover:text-white">Privacy Policy</Link>
+                <Link to="/terms" className="hover:text-white">Terms & Conditions</Link>
               </div>
             </div>
           </div>

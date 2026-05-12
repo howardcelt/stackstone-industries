@@ -30,8 +30,6 @@ export default function Navbar() {
       href: '#',
       subLinks: [
         ...FOOTER_LINKS.exportServices,
-        { name: 'Processing & Manufacturing', href: '/manufacturing' },
-        { name: 'Packaging Services', href: '/packaging' },
       ]
     },
     { name: 'Products', href: '/products' },
